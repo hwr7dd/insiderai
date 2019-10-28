@@ -8,10 +8,11 @@ First we import the data from kaggle: https://www.kaggle.com/kulgen/elon-musks-t
 
 The first thing we need to do is clean up the data. While the kaggle dataset provided has narrowed down the information we need to do a few things to the text before we start. 
 
-First make sure that you have the following libraries installed as we will need them throughout the project:
+Install the following libraries as we will need them throughout the project:
 ```
 library(tidyverse)
 library(quanteda)
 library(tidytext)
 library(udpipe)
 ```
+
