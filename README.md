@@ -18,12 +18,10 @@ Next we need to read in our data from Kaggle into a dataframe(I use file.choose(
 musktweets <- file.choose()
 str(musktweets)
 ```
-The data from kaggle has a date-time format and all we need is the date so we will split the column and then delete the time.
+The data from kaggle has a date-time format and all we need is the date so we will split the column so that we can focus on the Date and time seperately. To do this we have to convert the time to the proper format and then replace the current value of Time (in the original data set Time includes both the date and time.
 ```
-x <- musktweets$Time    
-Date = t(as.data.frame(strsplit(as.character(x),' ')))
-    row.names(Date) = NULL
-musktweets$Time=cbind(Date[,1])
+musktweets$Date <- as.Date(musktweets$Time) #already got this one from the answers above
+musktweets$Time <- format(as.POSIXct(musktweets$Time) ,format = "%H:%M:%S") 
 
 ```
 We will then convert the data into a corpus document (link for more info on corpus:https://www.quora.com/What-is-corpus-in-R):
