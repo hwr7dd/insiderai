@@ -47,7 +47,7 @@ ggplot(sum.corpus, aes(x=datum, y=Tweets)) +
  
  Here we can notice a few interesting things:
 ![Imgur](https://i.imgur.com/wJ8z1KV.png)
-From this we can see a sharp change in the number of words per tweet and also a large change in stock price as well. Pretty strange how strong the correlation is. We can also see the huge change in volume of tweets as he markedly increased tweet number in 2016. 
+From this we can see a sharp change in the number of tweets and also a large change in stock price as well. Pretty strange how strong the correlation is. We can also see the huge change in volume of tweets as he markedly increased tweet number in 2016. 
 
 Moving on, we must "tokenize" our dataset to properly clean the text for parsing. 
 ```
