@@ -12,6 +12,7 @@ library(tidyverse)
 library(quanteda)
 library(tidytext)
 library(udpipe)
+library(SnowballC)
 ```
 Next we need to read in our data from Kaggle into a dataframe (I use file.choose() for tutorial purposes but you can write out read.csv() function according to your directory structure.):
 ```
@@ -46,4 +47,50 @@ ggplot(sum.corpus, aes(x=datum, y=Tweets)) +
  
  Here we can notice a few interesting things. Take a look at Elon's tweets around the end of 2016:
 ![Imgur](https://i.imgur.com/Ylx3Ocv.jpg)
-From this we can see a sharp change in the number of words per tweet and also a large change in stock price as well. 
+From this we can see a sharp change in the number of words per tweet and also a large change in stock price as well. Pretty strange how strong the correlation is. We can also see the huge change in volume of tweets as he markedly increased tweet number in 2016. 
+
+Moving on, we must "tokenize" our dataset to properly clean the text for parsing. 
+```
+tok_tweets <- quanteda::tokens(musktweet_corp,
+                     what="word",
+                     remove_numbers=TRUE,
+                     remove_punct=TRUE,
+                     remove_symbols=TRUE,
+                     remove_separators=TRUE,
+                     remove_twitter=TRUE,
+                     remove_url=TRUE,
+                     ngrams=1)
+```
+Next will remove stop words from the data. Stop words are words like "the, a, is etc." anything that doesn't really convey value or meaning in our context. More on stop words: https://www.geeksforgeeks.org/removing-stop-words-nltk-python/
+To do this we will use the "stop_words" dictionary provided by the tidytext package. We will also go ahead and stem the tweets while we are at it. More on stemming: https://nlp.stanford.edu/IR-book/html/htmledition/stemming-and-lemmatization-1.html
+```
+data("stop_words")
+tok_tweets <- quanteda::tokens_remove(tok_tweets,
+                                       stop_words$word)
+tok_tweets <- quanteda::tokens_wordstem(tok_tweets)
+
+```
+Next we'll clean up the data a little more:
+```
+tweet_tidy <- as_tibble(musktweets) %>% 
+  tidytext::unnest_tokens(word, Tweet) %>%
+  mutate(word=wordStem(word))
+ tweet_tidy <- as_tibble(musktweets) %>% 
+  tidytext::unnest_tokens(word, Tweet) %>%
+  anti_join(stop_words) %>%
+  mutate(word=wordStem(word))
+ tweet_count <- tweet_tidy %>%
+  anti_join(add_stopw) %>%
+  count(word, sort=T) %>%
+  mutate(word=reorder(word,n))
+ tweetplustweet <-c(musktweets$Date,tweet_count)
+```
+Next well plot to see what our top words(minus stop words) are:
+```
+ggplot(tweetplustweet, aes(x=word, y=Date)) +
+  geom_col() + 
+  coord_flip() +
+  theme_minimal()
+```
+![Imgur](https://i.imgur.com/BXm1S5D.png)
+
