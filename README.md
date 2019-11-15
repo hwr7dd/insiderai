@@ -45,5 +45,5 @@ ggplot(sum.corpus, aes(x=datum, y=Tweets)) +
  ![Imgur](https://i.imgur.com/XGAaDlg.png)![Imgur](https://i.imgur.com/VfE7j2U.png)
  
  Here we can notice a few interesting things. Take a look at Elon's tweets around the end of 2016:
-![Imgur]https://i.imgur.com/Ylx3Ocv.jpg
+![Imgur](https://i.imgur.com/Ylx3Ocv.jpg)
 From this we can see a sharp change in the number of words per tweet and also a large change in stock price as well. 
