@@ -95,3 +95,8 @@ ggplot(tweetplustweet, aes(x=word, y=Date)) +
 ```
 ![Imgur](https://i.imgur.com/BXm1S5D.png)
 
+Now lets see if we can use a frequency count of the top 3 of his favorite words to estimate stock price (not counting RT or any other stop words that passed our sieve):
+```
+
+
+
