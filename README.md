@@ -30,7 +30,7 @@ We will then convert the data into a corpus document (link for more info on corp
 ```
 musktweet_corp <- corpus(musktweets,text_field="Tweet_Text")
 ```
-The first thing we can evaluate right away is the number of tweets Elon has made over time (in this case the dataset runs from November 16, 2012 to September 29, 2017):
+The first thing we can evaluate right away is the number of unique words per tweet Elon has made over time (in this case the dataset runs from November 16, 2012 to September 29, 2017):
 ```
 docvars(musktweet_corp, "datum") <- ymd(musktweet_corp$documents[["Date"]])
 
@@ -43,3 +43,6 @@ ggplot(sum.corpus, aes(x=datum, y=Tweets)) +
        y="Number of unique tweets"
  ```
  ![Imgur](https://i.imgur.com/XGAaDlg.png)![Imgur](https://i.imgur.com/VfE7j2U.png)
+ 
+ Here we can notice a few interesting things. Take a look at Elon's tweets around the end of 2016:
+![Imgur](https://i.imgur.com/O961WYh.jpg)
