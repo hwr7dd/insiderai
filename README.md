@@ -42,5 +42,4 @@ ggplot(sum.corpus, aes(x=datum, y=Tweets)) +
   labs(x="Date", 
        y="Number of unique tweets"
  ```
- 
-
+ ![Imgur](https://i.imgur.com/LT8hvll.png)
