@@ -45,9 +45,8 @@ ggplot(sum.corpus, aes(x=datum, y=Tweets)) +
  ```
  ![Imgur](https://i.imgur.com/XGAaDlg.png)![Imgur](https://i.imgur.com/VfE7j2U.png)
  
- Here we can notice a few interesting things:
+ Here we can notice a few interesting things(our data on the left, TSLA stock price on the right):
 
-DATA                                                                 TSLA STOCK PRICE 
 ![Imgur](https://i.imgur.com/wJ8z1KV.png)
 From this we can see a sharp change in the number of tweets and also a large change in stock price as well. Pretty strange how strong the correlation is. We can also see the huge change in volume of tweets as he markedly increased tweet number in 2016. 
 
