@@ -99,7 +99,7 @@ This presents an issue however. Take for example the token "tesla". In the above
 ```
 grep("tesla", musktweets$Tweet)
 ```
-[img]https://i.imgur.com/vsKxlx9.png[/img]
+[Imgur](https://i.imgur.com/vsKxlx9.png)
 As we can see there are only 10 or so actual tweets containing the world tesla, so we have to figure out when Elon is referring to Tesla even when he's not using it's name. To do that we will use Quanteda Topics Models.
 
 ```
