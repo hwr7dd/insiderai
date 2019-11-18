@@ -132,7 +132,7 @@ top_terms %>%
   coord_flip() +
   scale_x_reordered()
   ```
-  [Imgur](https://i.imgur.com/uGxAS2T.png)
+ ![Imgur](https://i.imgur.com/uGxAS2T.png)
   
 
 
