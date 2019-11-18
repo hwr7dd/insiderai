@@ -100,23 +100,23 @@ This presents an issue however. Take for example the token "tesla". In the above
 grep("tesla", musktweets$Tweet)
 ```
 [Imgur](https://i.imgur.com/vsKxlx9.png)
-As we can see there are only 10 or so actual tweets containing the world tesla, so we have to figure out when Elon is referring to Tesla even when he's not using it's name. To do that we will use Quanteda Topics Models.
+As we can see there are only 10 or so actual tweets containing the world tesla, so we have to figure out when Elon is referring to Tesla even when he's not using it's name. To do that we will use Quanteda Topics Models. We'll also remove any stopwords using the stopwords package within a dfm function:
 
 ```
 #First change corpus to dfm object
 muskdfm <- dfm(musktweet_corp, remove_punct = TRUE, remove = stopwords('en')) %>% 
-  dfm_remove(c('http', 't.co', 'amp', 'RT')) %>% 
+  dfm_remove(stopwords(language = "en",source = "smart")) %>% 
   dfm_trim(min_termfreq = 0.95, termfreq_type = "quantile", 
            max_docfreq = 0.1, docfreq_type = "prop")
 muskdfm <- muskdfm[ntoken(muskdfm) > 0,]
 ```
-Then we use LDA() from the topics model package. Since we only care about one topic, Tesla, we will set k=2 meaning we want a two topic model, one for Tesla and one for Car (k=2 is the minimum):
+Then we use LDA() from the topics model package. Topic selection works on clustering so I played around with the number of topics and found k=8 as the best fit for the data:
 
 ```
 dtm <- convert(muskdfm, to = "topicmodels")
-lda <- LDA(dtm, k = 2, control = list(seed = 1234)))
+lda <- LDA(dtm, k = 8, control = list(seed = 1234)))
 ```
-Next will use the tidytext package to examine per-topic-per-word probabilities and then group:
+Next will use the tidytext package to examine per-topic-per-word probabilities,group and only take the top 5 terms for each topic and graphing:
 ```
 musktopics <- tidy(lda, matrix = "beta")
 top_terms <- musktopics %>%
@@ -124,6 +124,16 @@ top_terms <- musktopics %>%
   top_n(5, beta) %>%
   ungroup() %>%
   arrange(topic, -beta)
+top_terms %>%
+  mutate(term = reorder_within(term, beta, topic)) %>%
+  ggplot(aes(term, beta, fill = factor(topic))) +
+  geom_col(show.legend = FALSE) +
+  facet_wrap(~ topic, scales = "free") +
+  coord_flip() +
+  scale_x_reordered()
+  ```
+  [Imgur](https://i.imgur.com/uGxAS2T.png)
+  
 
 
 
