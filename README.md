@@ -95,8 +95,36 @@ ggplot(tweetplustweet, aes(x=word, y=Date)) +
 ```
 ![Imgur](https://i.imgur.com/BXm1S5D.png)
 
-Now lets see if we can use a frequency count of the top 3 of his favorite words to estimate stock price (not counting RT or any other stop words that passed our sieve):
+This presents an issue however. Take for example the token "tesla". In the above graph we can see that it was used over 300 times, however when we run a grep function: 
 ```
+grep("tesla", musktweets$Tweet)
+```
+[img]https://i.imgur.com/vsKxlx9.png[/img]
+As we can see there are only 10 or so actual tweets containing the world tesla, so we have to figure out when Elon is referring to Tesla even when he's not using it's name. To do that we will use Quanteda Topics Models.
+
+```
+#First change corpus to dfm object
+muskdfm <- dfm(musktweet_corp, remove_punct = TRUE, remove = stopwords('en')) %>% 
+  dfm_remove(c('http', 't.co', 'amp', 'RT')) %>% 
+  dfm_trim(min_termfreq = 0.95, termfreq_type = "quantile", 
+           max_docfreq = 0.1, docfreq_type = "prop")
+muskdfm <- muskdfm[ntoken(muskdfm) > 0,]
+```
+Then we use LDA() from the topics model package. Since we only care about one topic, Tesla, we will set k=2 meaning we want a two topic model, one for Tesla and one for Car (k=2 is the minimum):
+
+```
+dtm <- convert(muskdfm, to = "topicmodels")
+lda <- LDA(dtm, k = 2, control = list(seed = 1234)))
+```
+Next will use the tidytext package to examine per-topic-per-word probabilities and then group:
+```
+musktopics <- tidy(lda, matrix = "beta")
+top_terms <- musktopics %>%
+  group_by(topic) %>%
+  top_n(5, beta) %>%
+  ungroup() %>%
+  arrange(topic, -beta)
+
 
 
 
