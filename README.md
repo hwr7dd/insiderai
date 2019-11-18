@@ -133,7 +133,10 @@ top_terms %>%
   scale_x_reordered()
   ```
  ![Imgur](https://i.imgur.com/uGxAS2T.png)
-  
+  As we can see, topic 2 and three (sorry for the rhyme) have good keywords for the subject were after so well focus on those. We'll go ahead and add the topics to the corpus document:
+  ```
+
+
 
 
 
