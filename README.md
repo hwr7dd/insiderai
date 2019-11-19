@@ -21,7 +21,7 @@ str(musktweets)
 ```
 The data from kaggle has a date-time format and all we need is the date so we will split the column so that we can focus on the Date and time seperately. To do this we have to convert the time and date to the proper format, then split them into each column. After that we now have a Time and Date column in the musktweets dataset. We then toss out the time variable as we don't need it. Finally we need to change the "Tweet" column from a factor to a character as Quanteda is unable to read characters as factors. 
 ```
-musktweets$Date <- as.Date(musktweets$Time) #already got this one from the answers above
+musktweets$Date <- as.Date(musktweets$Time)
 musktweets$Time <- format(as.POSIXct(musktweets$Time) ,format = "%H:%M:%S") 
 mustweets[3]=NULL   #This is to delete the "Time" column from the musktweets dataset.
 musktweets$Tweet <- as.character(musktweets$Tweet)
@@ -73,9 +73,6 @@ tok_tweets <- quanteda::tokens_wordstem(tok_tweets)
 ```
 Next we'll clean up the data a little more:
 ```
-tweet_tidy <- as_tibble(musktweets) %>% 
-  tidytext::unnest_tokens(word, Tweet) %>%
-  mutate(word=wordStem(word))
  tweet_tidy <- as_tibble(musktweets) %>% 
   tidytext::unnest_tokens(word, Tweet) %>%
   anti_join(stop_words) %>%
@@ -94,7 +91,12 @@ ggplot(tweetplustweet, aes(x=word, y=Date)) +
   theme_minimal()
 ```
 ![Imgur](https://i.imgur.com/BXm1S5D.png)
+The best package to do time series frequency comparisons imho is tidytext so well use that:
+```
 
+
+
+```
 This presents an issue however. Take for example the token "tesla". In the above graph we can see that it was used over 300 times, however when we run a grep function: 
 ```
 grep("tesla", musktweets$Tweet)
