@@ -91,12 +91,45 @@ ggplot(tweetplustweet, aes(x=word, y=Date)) +
   theme_minimal()
 ```
 ![Imgur](https://i.imgur.com/BXm1S5D.png)
-The best package to do time series frequency comparisons imho is tidytext so well use that:
+That graph is helpful but really it is useless if we don't know the time component as counts can change over time. 
+First lets just get a graph of every word without stop words. To do this we have to backtrack. First we need to rearrange the data into a tibble with a time component attached
 ```
+#Changing our original data back to data frame
+muskdata <-data.frame(musktweets)
 
+#Taking out the stop words again
+remove_reg <- "&amp;|&lt;|&gt;"
+#Formatting our "Time" column to the correct format. 
+tidy_tweets$Time <- ymd_hms(tidy_tweets$Time)
 
+tidy_tweets <- muskdata %>% 
+  filter(!str_detect(muskdata$Tweet, "^RT")) %>%
+  mutate(Tweet = str_remove_all(Tweet, remove_reg)) %>%
+  unnest_tokens(word, Tweet, token = "Tweet") %>%
+  filter(!word %in% stop_words$word,
+         !word %in% str_remove_all(stop_words$word, "'"),
+         str_detect(word, "[a-z]"))
+#This function is what allows us to run a time series plot in 1 month intervals.
+words_by_time <- tidy_tweets %>%
+  filter(!str_detect(word, "^@")) %>%
+  mutate(time_floor = floor_date(Time, unit = "1 month")) %>%
+  count(time_floor, word) %>%
+  group_by(time_floor) %>%
+  mutate(time_total = sum(n)) %>%
+  group_by(word) %>%
+  mutate(word_total = sum(n)) %>%
+  ungroup() %>%
+  rename(count = n) %>%
+  filter(word_total > 30)
+#Plot
+words_by_time %>%
+  ggplot(aes(time_floor, count/time_total, color = word)) +
+  geom_line(size = 1.0)+
+  labs(x = NULL, y = "Word frequency")
 
 ```
+![Imgur](https://i.imgur.com/Vl9ezAp.png)
+
 This presents an issue however. Take for example the token "tesla". In the above graph we can see that it was used over 300 times, however when we run a grep function: 
 ```
 grep("tesla", musktweets$Tweet)
@@ -112,7 +145,7 @@ muskdfm <- dfm(musktweet_corp, remove_punct = TRUE, remove = stopwords('en')) %>
            max_docfreq = 0.1, docfreq_type = "prop")
 muskdfm <- muskdfm[ntoken(muskdfm) > 0,]
 ```
-Then we use LDA() from the topics model package. Topic selection works on clustering so I played around with the number of topics and found k=8 as the best fit for the data:
+Then we use LDA() (Linear Discriminant Analysis) from the topics model package. Topic selection works on clustering so I played around with the number of topics and found k=8 as the best fit for the data:
 
 ```
 dtm <- convert(muskdfm, to = "topicmodels")
@@ -135,7 +168,7 @@ top_terms %>%
   scale_x_reordered()
   ```
  ![Imgur](https://i.imgur.com/uGxAS2T.png)
-  As we can see, topic 2 and three (sorry for the rhyme) have good keywords for the subject were after so well focus on those. We'll go ahead and add the topics to the corpus document:
+ As we can see, topic 2 and three (sorry for the rhyme) have good keywords for the subject were after so well focus on those. We'll go ahead and add the topics to the corpus document:
   ```
 
 
