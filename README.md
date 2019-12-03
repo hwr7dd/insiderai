@@ -129,11 +129,19 @@ words_by_time %>%
 
 ```
 ![Imgur](https://imgur.com/pWLtpVd.png)
+As we can see this isn't super helpful for determining stock price movement yet. Lets go ahead and use tidyquant to add TSLA stock closing price data to our words_by_time tibble.
+```
+
+
+
+
+
+```
 This presents an issue however. Take for example the token "tesla". In the above graph we can see that it was used over 300 times, however when we run a grep function: 
 ```
 grep("tesla", musktweets$Tweet)
 ```
-[Imgur](https://i.imgur.com/vsKxlx9.png)
+![Imgur](https://i.imgur.com/vsKxlx9.png)
 We can see there are only 10 or so actual tweets containing the world tesla, so we have to figure out when Elon is referring to Tesla even when he's not using it's name. To do that we will use Quanteda Topics Models. We'll also remove any stopwords using the stopwords package within a dfm function:
 
 ```
