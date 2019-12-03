@@ -128,8 +128,7 @@ words_by_time %>%
   labs(x = NULL, y = "Word frequency")
 
 ```
-![Imgur](https://i.imgur.com/Vl9ezAp.png)
-
+![Imgur](https://imgur.com/pWLtpVd)
 This presents an issue however. Take for example the token "tesla". In the above graph we can see that it was used over 300 times, however when we run a grep function: 
 ```
 grep("tesla", musktweets$Tweet)
