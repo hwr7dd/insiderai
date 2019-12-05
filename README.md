@@ -131,7 +131,15 @@ words_by_time %>%
 ![Imgur](https://imgur.com/pWLtpVd.png)
 As we can see this isn't super helpful for determining stock price movement yet. Lets go ahead and use tidyquant to add TSLA stock closing price data to our words_by_time tibble.
 ```
-
+library(tidyquant)
+getSymbols("TSLA",from="2012-11-16",to="2017-09-29")
+TSLA_log_returns<-TSLA%>%Ad()%>%dailyReturn(type='log')
+#This will give us the closing price as a column and the date's as an index
+price<-TSLA$TSLA.Close
+#We need to make the date a column,for this I used this solution
+library(data.table)
+setDT(price, keep.rownames = TRUE)[]
+#Next we merge price and words_by_time to get our tweet tokens and our stock price in the same dataframe
 
 
 
