@@ -190,7 +190,7 @@ Sometimes I find it confusing to rely on programming logic alone to sort data. I
 
 If you haven't been introduced to PowerBi, this is what I would consider it's unique and defining feature. I'll assume you've downloaded, registered, and opened PowerBi at this point. First we need to import the kaggle dataset:
 
-![Imgur](https://i.imgur.com/2aNADjJ)
+![Imgur](https://i.imgur.com/2aNADjJ.png)
 
 
 
