@@ -183,6 +183,7 @@ top_terms %>%
   scale_x_reordered()
   ```
  ![Imgur](https://i.imgur.com/uGxAS2T.png)
+
 At this point of the project, I realised that it was going to be difficult to do what I needed relying solely on my programming knowledge. I was recently introduced to PowerBi, a buisness analytics version of Powerpoint (essentially). It has a unique feature in that you can easily manipulate datasets graphically. 
 
 Sometimes I find it confusing to rely on programming logic alone to sort data. It's something I'm working on. Anyways, since PowerBi has a somewhat challenging registration process I'll include screenshots along with text to better illustrate what I'm doing. 
