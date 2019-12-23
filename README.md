@@ -183,7 +183,11 @@ top_terms %>%
   scale_x_reordered()
   ```
  ![Imgur](https://i.imgur.com/uGxAS2T.png)
- As we can see, topic 2 and three (sorry for the rhyme) have good keywords for the subject were after so well focus on those. We'll go ahead and add the topics to the corpus document:
+At this point of the project, I realised that it was going to be difficult to do what I needed relying solely on my programming knowledge. I was recently introduced to PowerBi, a buisness analytics version of Powerpoint (essentially). It has a unique feature in that you can easily manipulate datasets graphically. 
+
+Sometimes I find it confusing to rely on programming logic alone to sort data. It's something I'm working on. Anyways, since PowerBi has a somewhat challenging registration process I'll include screenshots along with text to better illustrate what I'm doing. 
+
+If you haven't been introduced to PowerBi, this is what I would consider it's unique and defining feature. I'll assume you've downloaded, registered, and opened PowerBi at this point. First we need to import the kaggle dataset:
   ```
 
 
