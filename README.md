@@ -188,6 +188,11 @@ At this point of the project, I realised that it was going to be difficult to do
 
 Sometimes I find it confusing to rely on programming logic alone to sort data. It's something I'm working on. Anyways, since PowerBi has a somewhat challenging registration process I'll include screenshots along with text to better illustrate what I'm doing. 
 
+First, we need to get the tibble that had all the tweet words and dates as this is where we will start the data manipulation in PowerBi. In this case we used "words_by_time" as the name of our tibble. We will go ahead and save that as a CSV file in R:
+```
+
+
+
 If you haven't been introduced to PowerBi, this is what I would consider it's unique and defining feature. I'll assume you've downloaded, registered, and opened PowerBi at this point. First we need to import the kaggle dataset(forgive the watermark, I have no idea why it's there because I use the universities Microsoft Office student account at the moment):
 
 ![Imgur](https://i.imgur.com/2aNADjJ.png)
